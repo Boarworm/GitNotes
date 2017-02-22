@@ -1,0 +1,27 @@
+#debug mod_rewrite
+RewriteCond %{QUERY_STRING} !vardump
+RewriteRule (.*) %{REQUEST_URI}?vardump=1&r=%{REQUEST_URI} [R=302,L,QSA]
+-------------------------------------
+
+RewriteCond %{REQUEST_URI} ^(.*)$
+RewriteRule (.*) http://www.100medspravok.net/$1 [R=301,L]
+
+-----------------------------------------------
+
+RewriteCond %{HTTP_HOST} ^100medspravok.net [NC]
+RewriteRule ^(.*)$ http://www.100medspravok.net/$1 [R=301,L]
+
+RewriteCond %{REQUEST_URI} ^(.*)/index.html$
+RewriteRule ^(.*)/index.html$ http://www.100medspravok.net/$1 [R=301,L]
+
+-------------------------------------------------
+#remove directory slash
+DirectorySlash Off
+--------------------------------------------------
+# Redirect all pages to www
+RewriteCond %{HTTP_HOST} ^([^www].*)$
+RewriteRule ^(.*)$ http://www.%1/$1 [L,R=301]
+--------------------------------------------------
+# Redirect all pages to non www
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
