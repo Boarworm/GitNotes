@@ -1,0 +1,18 @@
+# Debug
+RewriteCond %{QUERY_STRING} !vardump
+RewriteRule (.*) %{REQUEST_URI}?vardump=1&r=%{REQUEST_URI} [R=302,L,QSA]
+-------------------------------------
+# Redirect to another domain
+RewriteCond %{REQUEST_URI} ^(.*)$
+RewriteRule (.*) http://www.site.com/$1 [R=301,L]
+--------------------------------------------------
+# Redirect all pages to www
+RewriteCond %{HTTP_HOST} ^([^www].*)$
+RewriteRule ^(.*)$ http://www.%1/$1 [L,R=301]
+--------------------------------------------------
+# Redirect all pages to non www
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+--------------------------------------------------
+# Redirect from index.html and index.php to /
+RewriteRule ^(.*)index\.(html|php?)$ /$1 [R=301,NC,L]
